@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { listaDeHostsPermitidos, normalizarHost } from './lib/hosts';
 
 /**
  * Middleware (roda antes de cada página):
@@ -14,11 +15,8 @@ const ROTAS_PUBLICAS = ['/login', '/cadastro'];
 
 export async function middleware(request: NextRequest) {
   // 1) Host permitido
-  const permitidos = (process.env.APP_ALLOWED_HOSTS ?? '')
-    .split(',')
-    .map((h) => h.trim().toLowerCase().split(':')[0]) // ignora porta
-    .filter(Boolean);
-  const host = (request.headers.get('host') ?? '').split(':')[0].toLowerCase();
+  const permitidos = listaDeHostsPermitidos(process.env.APP_ALLOWED_HOSTS);
+  const host = normalizarHost(request.headers.get('host') ?? '');
   const bloqueado =
     permitidos.length === 0
       ? process.env.NODE_ENV === 'production' // em produção, falha fechado
