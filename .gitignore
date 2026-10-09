@@ -1,0 +1,24 @@
+# dependências e builds
+node_modules/
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# variáveis de ambiente (NUNCA commitar chaves reais)
+.env
+.env.*
+!.env.example
+
+# Supabase local (CLI)
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# sistema
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
