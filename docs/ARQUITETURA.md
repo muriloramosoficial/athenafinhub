@@ -6,7 +6,7 @@
  Navegador (dentro da rede da empresa)
         │  HTTPS  (Cloudflare: só o IP da empresa passa)
         ▼
- Vercel  ──  Next.js: páginas, menu dinâmico, formulários (Server Actions)
+ Cloudflare Workers  ──  Next.js (via OpenNext): páginas, menu dinâmico, Server Actions
         │  cliente Supabase com a sessão do usuário (cookies)
         ▼
  Supabase
@@ -16,7 +16,7 @@
    └─ Storage   : bucket privado "arquivos" (mesma permissão da tela)
 ```
 
-Não há servidor próprio nem Edge Functions: menos peças = menos custo e menos manutenção.
+Não há servidor próprio nem Edge Functions do Supabase: menos peças = menos custo e menos manutenção.
 
 ## 2. Perfis (papéis)
 
@@ -122,7 +122,7 @@ Regras de alteração do banco:
 ## 9. Segurança (camadas)
 
 1. **Cloudflare:** só o IP da empresa acessa o domínio (ver PUBLICAR.md).
-2. **Middleware:** recusa qualquer `Host` que não esteja em `APP_ALLOWED_HOSTS` (bloqueia `*.vercel.app`).
+2. **Middleware:** recusa qualquer `Host` que não esteja em `APP_ALLOWED_HOSTS` (bloqueia qualquer endereço que não seja o domínio da intranet).
 3. **Autenticação:** login obrigatório; usuário precisa estar **ativo**.
 4. **Permissões por tela:** verificadas na página e, principalmente, no **RLS** do banco.
 5. **Proteção de perfis:** triggers impedem auto-aprovação, promoção por gestor e alteração de gestor por gestor.

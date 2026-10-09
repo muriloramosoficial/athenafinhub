@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 /**
  * Middleware (roda antes de cada página):
  *  1. Bloqueia Hosts que não são o domínio oficial (APP_ALLOWED_HOSTS).
- *     Isso impede acesso pelo endereço *.vercel.app, que contorna o Cloudflare.
+ *     Isso impede acesso por endereços que não são o domínio oficial (ex.: *.workers.dev).
  *  2. Renova a sessão do Supabase (cookies).
  *  3. Redireciona para /login quem não está autenticado.
  * A checagem de perfil/status e de permissão de cada tela é feita nas páginas
@@ -14,13 +14,16 @@ const ROTAS_PUBLICAS = ['/login', '/cadastro'];
 
 export async function middleware(request: NextRequest) {
   // 1) Host permitido
-  console.log('DBG host=', request.headers.get('host'), 'url=', request.url, 'xfh=', request.headers.get('x-forwarded-host'), 'allowed=', process.env.APP_ALLOWED_HOSTS);
   const permitidos = (process.env.APP_ALLOWED_HOSTS ?? '')
     .split(',')
-    .map((h) => h.trim().toLowerCase())
+    .map((h) => h.trim().toLowerCase().split(':')[0]) // ignora porta
     .filter(Boolean);
   const host = (request.headers.get('host') ?? '').split(':')[0].toLowerCase();
-  if (permitidos.length > 0 && !permitidos.includes(host)) {
+  const bloqueado =
+    permitidos.length === 0
+      ? process.env.NODE_ENV === 'production' // em produção, falha fechado
+      : !permitidos.includes(host);
+  if (bloqueado) {
     return new NextResponse('Acesso negado.', { status: 403, headers: { 'content-type': 'text/plain; charset=utf-8' } });
   }
 

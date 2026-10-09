@@ -1,0 +1,3 @@
+# Copie para .dev.vars para testar localmente com "npm run preview:cf".
+# Em produção, configure estas variáveis no painel do Cloudflare (ver docs/PUBLICAR.md).
+APP_ALLOWED_HOSTS=localhost:8787,127.0.0.1:8787

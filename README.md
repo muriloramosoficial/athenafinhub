@@ -2,7 +2,7 @@
 
 Intranet da área financeira (Tesouraria, Contas a Pagar, Contas a Receber e BI).
 
-- **Frontend e servidor:** Next.js (App Router) + TypeScript, hospedado na Vercel
+- **Frontend e servidor:** Next.js (App Router) + TypeScript, publicado no Cloudflare Workers (via OpenNext)
 - **Backend, banco, autenticação e arquivos:** Supabase (Postgres + Auth + Storage)
 - **Acesso:** restrito à rede da empresa via Cloudflare (ver [docs/PUBLICAR.md](docs/PUBLICAR.md))
 
@@ -12,7 +12,7 @@ Intranet da área financeira (Tesouraria, Contas a Pagar, Contas a Receber e BI)
 |---|---|
 | [docs/ARQUITETURA.md](docs/ARQUITETURA.md) | Como o sistema é organizado, perfis, permissões e banco |
 | [docs/CRIAR_TELA.md](docs/CRIAR_TELA.md) | Passo a passo para criar uma nova tela (com ajuda de IA) |
-| [docs/PUBLICAR.md](docs/PUBLICAR.md) | Supabase, Vercel e Cloudflare: do zero ao ar |
+| [docs/PUBLICAR.md](docs/PUBLICAR.md) | Supabase, Cloudflare (publicação e restrição por IP): do zero ao ar |
 
 ## Rodar localmente
 

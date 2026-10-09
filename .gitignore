@@ -22,3 +22,12 @@ supabase/.env
 Thumbs.db
 *.log
 npm-debug.log*
+
+# Cloudflare / OpenNext
+.open-next/
+.wrangler/
+.dev.vars
+
+# Python
+__pycache__/
+*.pyc

@@ -55,7 +55,7 @@ A ficha manda a IA seguir estes passos:
 ## Passo 4 — Revisar e ativar
 
 1. Rode `npm run typecheck` e `npm run build`.
-2. Faça o deploy (a Vercel publica ao enviar o código para o GitHub).
+2. Faça o deploy (o Cloudflare publica automaticamente ao enviar o código para o GitHub, se o Git estiver conectado).
 3. Em **Administração → Telas → Gerenciar**, mude o status para **Ativa**.
 4. Em **Administração → Menus**, crie o item que abre a tela (grupo, rótulo, ícone, ordem).
 5. Em **Administração → Usuários**, ajuste exceções, se houver.
