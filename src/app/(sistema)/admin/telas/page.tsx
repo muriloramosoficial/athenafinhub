@@ -41,10 +41,10 @@ export default async function PaginaAdminTelas() {
               <tbody>
                 {telas.map((t) => (
                   <tr key={t.id}>
-                    <td><code>{t.codigo}</code></td>
-                    <td>{t.nome}</td>
-                    <td>{rotuloArea(t.area)}</td>
-                    <td>
+                    <td data-label="Código"><code>{t.codigo}</code></td>
+                    <td data-label="Nome">{t.nome}</td>
+                    <td data-label="Área">{rotuloArea(t.area)}</td>
+                    <td data-label="Status">
                       <Badge tipo={t.status === 'ativa' ? 'ok' : t.status === 'inativa' ? 'erro' : 'aviso'}>
                         {ROTULO_STATUS_TELA[t.status as StatusTela]}
                       </Badge>

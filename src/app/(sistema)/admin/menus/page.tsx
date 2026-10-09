@@ -49,12 +49,12 @@ export default async function PaginaMenus() {
               <tbody>
                 {lista.map((item) => (
                   <tr key={item.id}>
-                    <td>{item.grupo ?? <span className="texto-suave">— (topo)</span>}</td>
-                    <td><Icone nome={item.icone} /> {item.rotulo}</td>
-                    <td><code>{item.icone}</code></td>
-                    <td><code>{telaDoItem(item)?.codigo ?? '—'}</code></td>
-                    <td>{item.ordem}</td>
-                    <td>
+                    <td data-label="Grupo">{item.grupo ?? <span className="texto-suave">— (topo)</span>}</td>
+                    <td data-label="Rótulo"><Icone nome={item.icone} /> {item.rotulo}</td>
+                    <td data-label="Ícone"><code>{item.icone}</code></td>
+                    <td data-label="Abre a tela"><code>{telaDoItem(item)?.codigo ?? '—'}</code></td>
+                    <td data-label="Ordem">{item.ordem}</td>
+                    <td data-label="Situação">
                       <Badge tipo={item.ativo ? 'ok' : 'neutro'}>{item.ativo ? 'Visível' : 'Oculto'}</Badge>
                     </td>
                     <td className="celula-acoes">

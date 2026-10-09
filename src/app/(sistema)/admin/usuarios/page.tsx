@@ -50,10 +50,10 @@ export default async function PaginaUsuarios() {
                 const podeEditar = sessao.perfil.perfil === 'desenvolvedor' || u.perfil === 'colaborador';
                 return (
                   <tr key={u.id}>
-                    <td>{u.nome}{u.id === sessao.user.id && <span className="texto-suave"> (você)</span>}</td>
-                    <td>{u.email}</td>
-                    <td>{ROTULO_PERFIL[u.perfil as Perfil]}</td>
-                    <td>
+                    <td data-label="Nome">{u.nome}{u.id === sessao.user.id && <span className="texto-suave"> (você)</span>}</td>
+                    <td data-label="E-mail">{u.email}</td>
+                    <td data-label="Perfil">{ROTULO_PERFIL[u.perfil as Perfil]}</td>
+                    <td data-label="Situação">
                       <Badge tipo={u.status === 'ativo' ? 'ok' : u.status === 'bloqueado' ? 'erro' : 'aviso'}>
                         {ROTULO_STATUS_USUARIO[u.status as StatusUsuario]}
                       </Badge>

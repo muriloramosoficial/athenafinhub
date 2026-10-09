@@ -124,20 +124,20 @@ export default async function PaginaUsuario({ params }: { params: Promise<{ id: 
                         const resultado = excecao ?? padraoLiberado;
                         return (
                           <tr key={t.id}>
-                            <td>
+                            <td data-label="Tela">
                               {t.nome}<br /><code>{t.codigo}</code>
                               {t.status === 'inativa' && <> <Badge tipo="erro">{ROTULO_STATUS_TELA[t.status as StatusTela]}</Badge></>}
                             </td>
-                            <td>{rotuloArea(t.area)}</td>
-                            <td>{padraoLiberado ? 'Liberada' : 'Bloqueada'}</td>
-                            <td>
+                            <td data-label="Área">{rotuloArea(t.area)}</td>
+                            <td data-label="Padrão do perfil">{padraoLiberado ? 'Liberada' : 'Bloqueada'}</td>
+                            <td data-label="Exceção">
                               <select name={`tela_${t.id}`} defaultValue={valorInicial} disabled={!podeEditarAcesso}>
                                 <option value="padrao">Usar padrão do perfil</option>
                                 <option value="liberar">Liberar</option>
                                 <option value="bloquear">Bloquear</option>
                               </select>
                             </td>
-                            <td>
+                            <td data-label="Resultado">
                               <Badge tipo={resultado ? 'ok' : 'neutro'}>{resultado ? 'Acessa' : 'Não acessa'}</Badge>
                             </td>
                           </tr>

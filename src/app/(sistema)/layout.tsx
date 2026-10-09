@@ -2,6 +2,7 @@ import { exigirSessaoAtiva, obterTelasPermitidas } from '@/lib/sessao';
 import { ROTULO_PERFIL, podeGerenciarTelas, podeGerenciarUsuarios } from '@/lib/perfis';
 import { telaDoItem, type ItemMenuComTela } from '@/lib/tipos';
 import Sidebar, { type GrupoSidebar } from '@/components/Sidebar';
+import { Logo } from '@/components/Logo';
 
 export const dynamic = 'force-dynamic';
 
@@ -54,15 +55,20 @@ export default async function LayoutSistema({ children }: { children: React.Reac
         mostrarAdministracao={mostrarAdmin}
         mostrarGestaoUsuarios={podeGerenciarUsuarios(perfil)}
         mostrarGestaoTelas={podeGerenciarTelas(perfil)}
+        usuario={{ nome: sessao.perfil.nome, perfil: ROTULO_PERFIL[perfil] }}
       />
       <div className="principal">
         <header className="topbar">
           <div className="topbar-ambiente">Intranet · Área Financeira</div>
+          <div className="topbar-logo">
+            <Logo />
+          </div>
           <div className="topbar-usuario">
-            <div>
+            <div className="topbar-usuario-texto">
               <strong>{sessao.perfil.nome}</strong>
-              <span className="texto-suave"> · {ROTULO_PERFIL[perfil]}</span>
+              <span className="texto-suave">{ROTULO_PERFIL[perfil]}</span>
             </div>
+            <span className="avatar" aria-hidden="true">{sessao.perfil.nome.trim().split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? '').join('') || '?'}</span>
           </div>
         </header>
         <main className="conteudo">{children}</main>
