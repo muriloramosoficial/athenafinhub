@@ -4,7 +4,7 @@
  * PONTOS IMPORTANTES PARA SEGURANÇA:
  *  - "workers_dev": false  -> desliga o endereço *.workers.dev (não dá para acessar por ele).
  *  - "preview_urls": false -> desliga URLs de preview públicas.
- *  - O domínio da intranet é adicionado no painel (Workers & Pages > athena-finhub > Settings > Domains & Routes),
+ *  - O domínio da intranet é adicionado no painel (Workers & Pages > athenafinhub > Settings > Domains & Routes),
  *    como "Custom Domain". Assim o tráfego passa pelo Cloudflare e a regra de IP (WAF) vale.
  *  - APP_ALLOWED_HOSTS NÃO fica aqui: é definida no painel do Cloudflare (Settings > Variables and Secrets),
  *    para existir um único lugar de configuração. Sem ela, a produção responde 403 (falha fechado).
@@ -13,7 +13,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "athena-finhub",
+  "name": "athenafinhub",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -25,7 +25,7 @@
     {
       // Autorreferência exigida pelo OpenNext (o nome deve ser igual ao "name" acima)
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "athena-finhub"
+      "service": "athenafinhub"
     }
   ],
   "workers_dev": false,

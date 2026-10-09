@@ -69,7 +69,7 @@ o endereço `*.pages.dev` não pode ser desligado, enquanto o `*.workers.dev` po
 
 ### 3.1 Conectar o repositório
 1. Painel do Cloudflare → **Workers & Pages → Create → Import a repository** (conecte o GitHub e escolha `athenafinhub`).
-2. Nome do Worker: `athena-finhub` (deve bater com `name` em `wrangler.jsonc`).
+2. Nome do Worker: `athenafinhub` (deve ser exatamente o `name` em `wrangler.jsonc`; o Cloudflare usa o nome do repositório se você não definir outro).
 3. Configure o build:
    - **Build command:** `npm run build:cf`
    - **Deploy command:** `npx wrangler deploy --keep-vars`
@@ -91,7 +91,7 @@ Existem **dois tipos**, e cada um vai em um lugar:
 | `APP_ALLOWED_HOSTS` | **Runtime** (lida pelo servidor, a cada requisição) | Settings → **Variables and Secrets** (runtime) | `intranet.suaempresa.com.br` |
 
 ### 4.1 Passo a passo
-No Worker `athena-finhub`, abra **Settings**:
+No Worker `athenafinhub`, abra **Settings**:
 
 **a) Build variables** (para o build):
 - Adicione `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` com os valores da etapa 1.2.
