@@ -114,7 +114,10 @@ Isso é proposital: é preferível ficar fechado a ficar aberto por esquecimento
 ## 5. Domínio e restrição por IP
 
 ### 5.1 Descobrir o IP da empresa
-O IP externo informado é **189.86.90.98**. Confirme-o **de dentro da rede da empresa** (abra https://ifconfig.me). Se for outro, use o que aparecer.
+IPs de saída informados para a regra: **189.86.90.98** (IP externo) e **118.27.125.223**.
+Confirme-os **de dentro da rede da empresa** (abra https://ifconfig.me em mais de uma máquina). O `nslookup` de `o-ue.com` mostrou
+118.27.125.223, mas isso é a resposta do DNS para um nome externo, então **confirme se esse IP é de fato a saída da empresa**
+antes de liberar. Se não for, remova-o da lista.
 
 Pontos de atenção:
 - **IP dinâmico:** a operadora pode trocá-lo, e o acesso para. Peça um **IP fixo** para a operadora (costuma ser um serviço pago, mas é o caminho mais estável). Enquanto isso, teste periodicamente.
@@ -133,9 +136,9 @@ No painel do domínio (**a zona da empresa**, não o Worker): **Security → WAF
 - **Nome:** `Intranet: somente IP da empresa`
 - **Expressão** (edite o domínio e os IPs):
   ```
-  (http.host eq "intranet.suaempresa.com.br" and not ip.src in {189.86.90.98})
+  (http.host eq "intranet.suaempresa.com.br" and not ip.src in {189.86.90.98 118.27.125.223})
   ```
-  Se houver mais IPs: `not ip.src in {189.86.90.98 200.1.2.3}`.
+  Os IPs dentro das chaves `{ }` são separados por espaço. Para incluir outro IP, basta acrescentá-lo à lista.
 - **Ação:** **Block**.
 
 Como o `*.workers.dev` está desligado, o único endereço que sobra é o do domínio, então a regra cobre tudo.
