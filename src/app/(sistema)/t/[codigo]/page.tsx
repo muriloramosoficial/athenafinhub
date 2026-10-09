@@ -3,6 +3,7 @@ import { exigirSessaoAtiva, obterTelasPermitidas } from '@/lib/sessao';
 import { PageHeader } from '@/components/PageHeader';
 import { EmDesenvolvimento } from '@/components/EmDesenvolvimento';
 import { telasRegistradas } from '@/screens/registry';
+import { criarClienteSupabase } from '@/lib/supabase/server';
 import { rotuloArea } from '@/lib/codigo-tela';
 import { ROTULO_STATUS_TELA, type StatusTela } from '@/lib/perfis';
 import type { Tela } from '@/lib/tipos';
@@ -19,15 +20,20 @@ export default async function PaginaTela({ params }: { params: Promise<{ codigo:
   const { codigo } = await params;
   if (!/^[a-z0-9_]+$/.test(codigo)) notFound();
 
-  const sessao = await exigirSessaoAtiva();
-  const permitidas = await obterTelasPermitidas();
+  // Sessão, permissões e a tela são buscadas em paralelo
+  const supabase = await criarClienteSupabase();
+  const [sessao, permitidas, resTela] = await Promise.all([
+    exigirSessaoAtiva(),
+    obterTelasPermitidas(),
+    supabase
+      .from('telas')
+      .select('id, codigo, nome, descricao, area, status, created_at')
+      .eq('codigo', codigo)
+      .maybeSingle(),
+  ]);
   if (!permitidas.has(codigo)) notFound();
 
-  const { data } = await sessao.supabase
-    .from('telas')
-    .select('id, codigo, nome, descricao, area, status, created_at')
-    .eq('codigo', codigo)
-    .maybeSingle();
+  const { data } = resTela;
   if (!data) notFound();
   const tela = data as Tela;
 

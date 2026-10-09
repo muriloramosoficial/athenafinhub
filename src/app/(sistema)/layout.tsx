@@ -1,4 +1,5 @@
 import { exigirSessaoAtiva, obterTelasPermitidas } from '@/lib/sessao';
+import { criarClienteSupabase } from '@/lib/supabase/server';
 import { ROTULO_PERFIL, podeGerenciarTelas, podeGerenciarUsuarios } from '@/lib/perfis';
 import { telaDoItem, type ItemMenuComTela } from '@/lib/tipos';
 import Sidebar, { type GrupoSidebar } from '@/components/Sidebar';
@@ -12,15 +13,20 @@ export const dynamic = 'force-dynamic';
  * cuja tela o usuário pode acessar (regra vinda do banco).
  */
 export default async function LayoutSistema({ children }: { children: React.ReactNode }) {
-  const sessao = await exigirSessaoAtiva();
-  const permitidas = await obterTelasPermitidas();
-
-  const { data: itens, error } = await sessao.supabase
-    .from('menu_itens')
-    .select('id, grupo, rotulo, icone, tela_id, ordem, ativo, telas(codigo, nome, status)')
-    .eq('ativo', true)
-    .order('ordem', { ascending: true })
-    .order('rotulo', { ascending: true });
+  // Sessão, permissões e menu são buscados EM PARALELO (uma ida ao Supabase
+  // em vez de três em sequência). Se o usuário não puder entrar, exigirSessaoAtiva redireciona.
+  const supabase = await criarClienteSupabase();
+  const [sessao, permitidas, resMenu] = await Promise.all([
+    exigirSessaoAtiva(),
+    obterTelasPermitidas(),
+    supabase
+      .from('menu_itens')
+      .select('id, grupo, rotulo, icone, tela_id, ordem, ativo, telas(codigo, nome, status)')
+      .eq('ativo', true)
+      .order('ordem', { ascending: true })
+      .order('rotulo', { ascending: true }),
+  ]);
+  const { data: itens, error } = resMenu;
 
   if (error) throw new Error(`Erro ao carregar o menu: ${error.message}`);
 

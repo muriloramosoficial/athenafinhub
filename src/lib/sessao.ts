@@ -54,10 +54,10 @@ export async function exigirPerfil(perfis: Perfil[]) {
  * A regra fica no banco (função telas_permitidas), para existir uma única fonte da verdade.
  */
 export const obterTelasPermitidas = cache(async (): Promise<Set<string>> => {
-  const sessao = await obterSessao();
-  if (!sessao || sessao.perfil.status !== 'ativo') return new Set();
-
-  const { data, error } = await sessao.supabase.rpc('telas_permitidas');
+  // Não depende de obterSessao(): a função do banco já exige usuário ativo
+  // (pode_acessar_tela checa perfis.status). Assim roda em paralelo com o perfil.
+  const supabase = await criarClienteSupabase();
+  const { data, error } = await supabase.rpc('telas_permitidas');
   if (error) throw new Error(`Não foi possível carregar as permissões: ${error.message}`);
   return new Set((data as { codigo: string }[]).map((r) => r.codigo));
 });
