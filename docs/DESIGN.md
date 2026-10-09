@@ -3,15 +3,16 @@
 Tudo visual está em `src/app/globals.css`. Para mudar a marca, edite os **tokens** em `:root`.
 
 ## Tokens principais
-- Marca: `--brand-*`, `--gradiente-marca`, `--accent-500` (turquesa)
-- Superfícies: `--fundo`, `--superficie`, `--superficie-2`, `--linha`
+- Destaque (azul): `--azul-300` … `--azul-700`, `--azul-suave`
+- Superfícies: `--fundo`, `--superficie`, `--superficie-2`, `--superficie-3`, `--entrada`, `--linha`
 - Texto: `--texto`, `--texto-2`, `--texto-3`
-- Semânticas: `--sucesso`, `--aviso`, `--erro`, `--info` (e suas versões `-fundo`)
-- Forma e sombra: `--raio-*`, `--sombra*`
+- Situação: `--sucesso`, `--aviso`, `--erro`, `--info` (usados só para status, não para destaque)
+- Forma e sombra: `--raio-*`, `--sombra*`, `--anel` (foco)
 - Espaçamento: `--e1` … `--e10` (escala de 4px)
-- Medidas de navegação: `--sidebar-largura`, `--topbar-altura`, `--tabbar-altura`
+- Medidas: `--sidebar-largura`, `--topbar-altura`, `--tabbar-altura`
 
-O modo escuro é automático (preferência do sistema) e reaproveita os mesmos tokens.
+O padrão é **escuro** (estilo painel de dados). Com o sistema em tema claro, a versão clara
+é aplicada automaticamente pelos mesmos tokens.
 
 ## Componentes (classes)
 | Classe | Uso |
@@ -24,6 +25,7 @@ O modo escuro é automático (preferência do sistema) e reaproveita os mesmos t
 | `.alerta` + `.alerta-ok` / `-erro` / `-aviso` / `-info` | mensagens |
 | `.tabela` | tabela (no celular vira lista de cartões) |
 | `.avatar` | iniciais do usuário |
+| `.esqueleto-grade` + `.esqueleto` | prévia de tela em construção |
 | `.cartao-vazio` | estado vazio |
 
 ### Tabelas no celular
