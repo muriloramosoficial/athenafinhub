@@ -3,7 +3,9 @@
 Tudo visual está em `src/app/globals.css`. Para mudar a marca, edite os **tokens** em `:root`.
 
 ## Tokens principais
-- Destaque (azul): `--azul-300` … `--azul-700`, `--azul-suave`
+Os valores vêm dos tokens oficiais do **Adobe Spectrum** (`@spectrum-css/vars` 9.0.8).
+
+- Destaque (azul Spectrum): `--azul-500`, `--azul-600`, `--azul-700`, `--azul-suave`
 - Superfícies: `--fundo`, `--superficie`, `--superficie-2`, `--superficie-3`, `--entrada`, `--linha`
 - Texto: `--texto`, `--texto-2`, `--texto-3`
 - Situação: `--sucesso`, `--aviso`, `--erro`, `--info` (usados só para status, não para destaque)
@@ -11,8 +13,8 @@ Tudo visual está em `src/app/globals.css`. Para mudar a marca, edite os **token
 - Espaçamento: `--e1` … `--e10` (escala de 4px)
 - Medidas: `--sidebar-largura`, `--topbar-altura`, `--tabbar-altura`
 
-O padrão é **escuro** (estilo painel de dados). Com o sistema em tema claro, a versão clara
-é aplicada automaticamente pelos mesmos tokens.
+O padrão é **claro**. Com o sistema em tema escuro (`prefers-color-scheme: dark`), a versão escura
+do Spectrum é aplicada automaticamente pelos mesmos tokens. Não usar gradientes nem paleta verde.
 
 ## Componentes (classes)
 | Classe | Uso |
