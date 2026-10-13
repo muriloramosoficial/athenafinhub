@@ -23,19 +23,10 @@ interface Props {
   mostrarAdministracao: boolean;
   mostrarGestaoUsuarios: boolean;
   mostrarGestaoTelas: boolean;
-  usuario: { nome: string; perfil: string };
 }
 
 /** Quantos atalhos aparecem direto na barra do celular (o resto vai para "Mais"). */
 const ATALHOS_NA_BARRA = 3;
-
-function iniciais(nome: string): string {
-  const partes = nome.trim().split(/\s+/).filter(Boolean);
-  if (partes.length === 0) return '?';
-  const primeira = partes[0][0] ?? '';
-  const ultima = partes.length > 1 ? partes[partes.length - 1][0] : '';
-  return (primeira + ultima).toUpperCase();
-}
 
 /**
  * Navegação do sistema em dois formatos (o CSS decide qual aparece):
@@ -49,7 +40,6 @@ export default function Sidebar({
   mostrarAdministracao,
   mostrarGestaoUsuarios,
   mostrarGestaoTelas,
-  usuario,
 }: Props) {
   const atual = usePathname();
   const ativo = (href: string) => atual === href || atual.startsWith(href + '/');
@@ -69,7 +59,6 @@ export default function Sidebar({
   const naBarra = cabem ? todos : todos.slice(0, ATALHOS_NA_BARRA);
   const noMais = cabem ? [] : todos.slice(ATALHOS_NA_BARRA);
   const maisAtivo = noMais.some((i) => ativo(i.href));
-  const nomeIniciais = iniciais(usuario.nome);
 
   return (
     <>
@@ -106,13 +95,6 @@ export default function Sidebar({
         </nav>
 
         <div className="sidebar-rodape">
-          <div className="sidebar-usuario">
-            <span className="avatar" aria-hidden="true">{nomeIniciais}</span>
-            <div>
-              <strong>{usuario.nome}</strong>
-              <small>{usuario.perfil}</small>
-            </div>
-          </div>
           <form action={sair}>
             <button className="sidebar-link sidebar-sair" type="submit">
               <Icone nome="logout" /> <span>Sair</span>

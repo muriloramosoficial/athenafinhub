@@ -61,7 +61,6 @@ export default async function LayoutSistema({ children }: { children: React.Reac
         mostrarAdministracao={mostrarAdmin}
         mostrarGestaoUsuarios={podeGerenciarUsuarios(perfil)}
         mostrarGestaoTelas={podeGerenciarTelas(perfil)}
-        usuario={{ nome: sessao.perfil.nome, perfil: ROTULO_PERFIL[perfil] }}
       />
       <div className="principal">
         <header className="topbar">

@@ -357,18 +357,33 @@ textarea { min-height: 96px; }
 /* ---------- 4. Layout do sistema ---------- */
 .app { display: flex; min-height: 100vh; min-height: 100dvh; }
 
-/* Sidebar (desktop): fina, escura, com seções em caixa-alta discreta */
+/* Sidebar (desktop): fixa na altura da tela.
+   Só a lista de itens rola; o topo (logo) e o rodapé (Sair) ficam sempre visíveis. */
 .sidebar {
   width: var(--sidebar-largura); flex-shrink: 0;
   background: var(--side-fundo);
   color: var(--side-texto);
   display: flex; flex-direction: column;
-  position: sticky; top: 0; height: 100vh; height: 100dvh;
+  position: sticky; top: 0;
+  height: 100vh; height: 100dvh;
+  overflow: hidden;
   border-right: 1px solid var(--side-linha);
 }
-.sidebar-topo { height: var(--topbar-altura); padding: 0 var(--e4); display: flex; align-items: center; border-bottom: 1px solid var(--side-linha); }
-.sidebar-nav { flex: 1; overflow-y: auto; padding: var(--e3) var(--e2); scrollbar-width: thin; scrollbar-color: var(--linha-forte) transparent; }
+.sidebar-topo {
+  flex: 0 0 auto;
+  height: var(--topbar-altura);
+  padding: 0 var(--e4);
+  display: flex; align-items: center;
+  border-bottom: 1px solid var(--side-linha);
+}
+.sidebar-nav {
+  flex: 1 1 auto; min-height: 0;
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: var(--e3) var(--e2);
+  scrollbar-width: thin; scrollbar-color: var(--linha-forte) transparent;
+}
 .sidebar-grupo { margin-bottom: var(--e4); }
+.sidebar-grupo:last-child { margin-bottom: 0; }
 .sidebar-titulo {
   font-size: 0.6875rem; font-weight: 500; color: var(--texto-3);
   padding: var(--e2) var(--e2) var(--e1);
@@ -376,7 +391,7 @@ textarea { min-height: 96px; }
 .sidebar-link {
   position: relative;
   display: flex; align-items: center; gap: var(--e2);
-  height: 30px; padding: 0 var(--e2); border-radius: var(--raio-sm);
+  height: 32px; padding: 0 var(--e2); border-radius: var(--raio-sm);
   color: var(--side-texto); font-size: 0.8125rem; font-weight: 450;
   background: none; border: 0; width: 100%; text-align: left; cursor: pointer; font-family: inherit;
   transition: background var(--rapido), color var(--rapido);
@@ -386,11 +401,13 @@ textarea { min-height: 96px; }
 .sidebar-link.ativo { background: var(--side-ativo); color: var(--side-texto-forte); font-weight: 500; }
 .sidebar-link.ativo svg { opacity: 1; color: var(--azul-400); }
 
-.sidebar-rodape { padding: var(--e2); border-top: 1px solid var(--side-linha); display: flex; flex-direction: column; gap: var(--e1); margin: 0; }
-.sidebar-usuario { display: flex; align-items: center; gap: var(--e2); padding: var(--e2); min-width: 0; }
-.sidebar-usuario > div { min-width: 0; display: flex; flex-direction: column; line-height: 1.3; }
-.sidebar-usuario strong { color: var(--side-texto-forte); font-size: 0.8125rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sidebar-usuario small { color: var(--texto-3); font-size: 0.6875rem; }
+/* Rodapé fixo: só o botão Sair */
+.sidebar-rodape {
+  flex: 0 0 auto;
+  padding: var(--e2);
+  border-top: 1px solid var(--side-linha);
+  margin: 0;
+}
 .sidebar-sair:hover { color: var(--erro); }
 
 /* Área principal */
