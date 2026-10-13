@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { cadastrar } from '@/app/actions/auth';
+import { Spinner } from '@/components/Carregamento';
 
 export function CadastroForm() {
   const [estado, acao, pendente] = useActionState(cadastrar, undefined);
@@ -25,8 +26,9 @@ export function CadastroForm() {
       </label>
       {estado?.erro && <div className="alerta alerta-erro">{estado.erro}</div>}
       {estado?.sucesso && <div className="alerta alerta-ok">{estado.sucesso}</div>}
-      <button className="btn btn-primario btn-bloco" disabled={pendente}>
-        {pendente ? 'Enviando...' : 'Criar cadastro'}
+      <button className="btn btn-primario btn-bloco" disabled={pendente} aria-busy={pendente}>
+        {pendente && <Spinner />}
+        {pendente ? 'Enviando…' : 'Criar cadastro'}
       </button>
     </form>
   );

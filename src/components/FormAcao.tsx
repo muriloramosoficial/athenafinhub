@@ -13,6 +13,7 @@
 import type { ReactNode } from 'react';
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
+import { Spinner } from './Carregamento';
 
 export type EstadoAcao = { erro?: string; sucesso?: string } | undefined;
 
@@ -50,8 +51,10 @@ export function BotaoEnviar({
       type="submit"
       className={`btn btn-${variante} ${pequeno ? 'btn-pequeno' : ''}`}
       disabled={pending}
+      aria-busy={pending}
     >
-      {pending ? 'Salvando...' : children}
+      {pending && <Spinner />}
+      {pending ? 'Salvando…' : children}
     </button>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { ProgressoNavegacao } from '@/components/Carregamento';
 
 export const metadata: Metadata = {
   title: { default: 'Athena FinHub', template: '%s · Athena FinHub' },
@@ -25,7 +26,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <ProgressoNavegacao />
+        {children}
+      </body>
     </html>
   );
 }

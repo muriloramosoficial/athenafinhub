@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Icone from './Icone';
 import { Logo } from './Logo';
+import { BotaoSair, ItemLink } from './Carregamento';
 import { sair } from '@/app/actions/auth';
 
 export interface ItemSidebar {
@@ -30,9 +30,8 @@ const ATALHOS_NA_BARRA = 3;
 
 /**
  * Navegação do sistema em dois formatos (o CSS decide qual aparece):
- *  - Desktop: barra lateral fixa.
- *  - Celular: barra de abas inferior, com "Mais" abrindo uma folha
- *    (<details>, sem JavaScript extra).
+ *  - Desktop: barra lateral fixa, com Sair fixo embaixo.
+ *  - Celular: barra de abas inferior, com "Mais" abrindo uma folha.
  * Ambos mostram SOMENTE os itens que o usuário pode acessar.
  */
 export default function Sidebar({
@@ -59,6 +58,7 @@ export default function Sidebar({
   const naBarra = cabem ? todos : todos.slice(0, ATALHOS_NA_BARRA);
   const noMais = cabem ? [] : todos.slice(ATALHOS_NA_BARRA);
   const maisAtivo = noMais.some((i) => ativo(i.href));
+  const noMaisIds = new Set(noMais.map((i) => i.id));
 
   return (
     <>
@@ -73,10 +73,10 @@ export default function Sidebar({
             <div className="sidebar-grupo" key={grupo.titulo ?? `sem-grupo-${i}`}>
               {grupo.titulo && <div className="sidebar-titulo">{grupo.titulo}</div>}
               {grupo.itens.map((item) => (
-                <Link key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`}>
+                <ItemLink key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`} aria-current={ativo(item.href) ? 'page' : undefined}>
                   <Icone nome={item.icone} />
                   <span>{item.rotulo}</span>
-                </Link>
+                </ItemLink>
               ))}
             </div>
           ))}
@@ -85,10 +85,10 @@ export default function Sidebar({
             <div className="sidebar-grupo">
               <div className="sidebar-titulo">Administração</div>
               {itensAdmin.map((item) => (
-                <Link key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`}>
+                <ItemLink key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`} aria-current={ativo(item.href) ? 'page' : undefined}>
                   <Icone nome={item.icone} />
                   <span>{item.rotulo}</span>
-                </Link>
+                </ItemLink>
               ))}
             </div>
           )}
@@ -96,9 +96,7 @@ export default function Sidebar({
 
         <div className="sidebar-rodape">
           <form action={sair}>
-            <button className="sidebar-link sidebar-sair" type="submit">
-              <Icone nome="logout" /> <span>Sair</span>
-            </button>
+            <BotaoSair />
           </form>
         </div>
       </aside>
@@ -106,7 +104,7 @@ export default function Sidebar({
       {/* ---------- Celular: barra de abas ---------- */}
       <nav className="tabbar" aria-label="Menu principal">
         {naBarra.map((item) => (
-          <Link
+          <ItemLink
             key={item.id}
             href={item.href}
             className={`tabbar-item ${ativo(item.href) ? 'ativo' : ''}`}
@@ -114,7 +112,7 @@ export default function Sidebar({
           >
             <span className="tabbar-icone"><Icone nome={item.icone} /></span>
             <span>{item.rotulo}</span>
-          </Link>
+          </ItemLink>
         ))}
 
         {noMais.length > 0 && (
@@ -129,30 +127,28 @@ export default function Sidebar({
                 <div className="sidebar-grupo" key={grupo.titulo ?? `m-sem-grupo-${i}`}>
                   {grupo.titulo && <div className="sidebar-titulo">{grupo.titulo}</div>}
                   {grupo.itens.map((item) =>
-                    noMais.some((n) => n.id === item.id) ? (
-                      <Link key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`}>
+                    noMaisIds.has(item.id) ? (
+                      <ItemLink key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`}>
                         <Icone nome={item.icone} /> <span>{item.rotulo}</span>
-                      </Link>
+                      </ItemLink>
                     ) : null,
                   )}
                 </div>
               ))}
-              {itensAdmin.some((i) => noMais.some((n) => n.id === i.id)) && (
+              {itensAdmin.some((i) => noMaisIds.has(i.id)) && (
                 <div className="sidebar-grupo">
                   <div className="sidebar-titulo">Administração</div>
                   {itensAdmin.map((item) =>
-                    noMais.some((n) => n.id === item.id) ? (
-                      <Link key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`}>
+                    noMaisIds.has(item.id) ? (
+                      <ItemLink key={item.id} href={item.href} className={`sidebar-link ${ativo(item.href) ? 'ativo' : ''}`}>
                         <Icone nome={item.icone} /> <span>{item.rotulo}</span>
-                      </Link>
+                      </ItemLink>
                     ) : null,
                   )}
                 </div>
               )}
               <form action={sair} className="sidebar-rodape">
-                <button className="sidebar-link sidebar-sair" type="submit">
-                  <Icone nome="logout" /> <span>Sair</span>
-                </button>
+                <BotaoSair />
               </form>
             </div>
           </details>
@@ -161,3 +157,4 @@ export default function Sidebar({
     </>
   );
 }
+

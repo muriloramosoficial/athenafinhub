@@ -354,6 +354,38 @@ textarea { min-height: 96px; }
 .esqueleto:nth-child(3)::after { animation-delay: 0.4s; }
 @keyframes brilho { to { transform: translateX(100%); } }
 
+/* Carregamento: spinner, barra de progresso e estados de espera */
+.spinner {
+  display: inline-block; flex-shrink: 0;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid currentColor; border-right-color: transparent;
+  opacity: 0.85;
+  animation: girar 0.7s linear infinite;
+}
+.spinner-item { width: 12px; height: 12px; margin-left: auto; color: var(--azul-400); }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* Barra fina no topo: cresce enquanto a próxima tela carrega */
+.barra-progresso {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 100;
+  pointer-events: none; opacity: 0; transition: opacity 200ms ease;
+}
+.barra-progresso.ativa { opacity: 1; }
+.barra-progresso span {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, transparent, var(--azul-500), var(--azul-400));
+  box-shadow: 0 0 8px var(--azul-glow);
+  transition: width 0.4s ease-out;
+}
+.barra-progresso.ativa span { width: 85%; transition: width 6s cubic-bezier(0.1, 0.7, 0.2, 1); }
+
+/* Link de menu em espera: leve queda de contraste, sem pular o layout */
+.sidebar-link[aria-busy='true'], .sidebar-link.carregando { color: var(--side-texto-forte); }
+
+/* Botões em espera não podem ser clicados de novo */
+.btn[aria-busy='true'] { cursor: progress; }
+.btn[aria-busy='true'] .spinner { margin-right: 2px; }
+
 /* ---------- 4. Layout do sistema ---------- */
 .app { display: flex; min-height: 100vh; min-height: 100dvh; }
 
@@ -569,6 +601,8 @@ textarea { min-height: 96px; }
     display: grid; place-items: center; transition: background var(--rapido), color var(--rapido);
   }
   .tabbar-item:active { transform: scale(0.95); }
+  .tabbar-item .spinner-item { position: absolute; margin: 0; top: 4px; right: calc(50% - 26px); }
+  .tabbar-item { position: relative; }
   .tabbar-item:hover { text-decoration: none; }
   .tabbar-item.ativo { color: var(--texto); }
   .tabbar-item.ativo .tabbar-icone { background: var(--azul-suave); color: var(--azul-400); }

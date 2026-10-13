@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { entrar } from '@/app/actions/auth';
+import { Spinner } from '@/components/Carregamento';
 
 export function LoginForm() {
   const [estado, acao, pendente] = useActionState(entrar, undefined);
@@ -16,8 +17,9 @@ export function LoginForm() {
         <input name="senha" type="password" autoComplete="current-password" required />
       </label>
       {estado?.erro && <div className="alerta alerta-erro">{estado.erro}</div>}
-      <button className="btn btn-primario btn-bloco" disabled={pendente}>
-        {pendente ? 'Entrando...' : 'Entrar'}
+      <button className="btn btn-primario btn-bloco" disabled={pendente} aria-busy={pendente}>
+        {pendente && <Spinner />}
+        {pendente ? 'Entrando…' : 'Entrar'}
       </button>
     </form>
   );
